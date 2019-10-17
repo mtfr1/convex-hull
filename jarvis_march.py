@@ -21,6 +21,9 @@ def leftmost_point(S):
 
 #S is a set of points
 def jarvis(points):
+	
+	points = list(set(points)) #remove duplicates
+
 	starting_point, aux = leftmost_point(points)
 	result = set() #contains every point from the convex hull
 	collinear_points = []
