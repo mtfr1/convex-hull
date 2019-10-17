@@ -27,9 +27,3 @@ def graham(points):
 		U.append(point)
 
 	return L[:-1] + U[:-1] #last point is the same as starting point
-
-
-points = [(-7,8),(-4,6),(2,6),(6,4),(8,6),(7,-2),(4,-6),(8,-7),(0,0),(3,-2),(6,-10),(0,-6),
-		(-9,-5),(-8,-2),(-8,0),(-10,3),(-2,2),(-10,4)]
-
-print(graham(points))
