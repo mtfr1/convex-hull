@@ -2,16 +2,6 @@
 def cross_product(o, a, b):
 	return (b[1] - o[1]) * (a[0] - o[0]) - (a[1] - o[1]) * (b[0] - o[0])
 
-def distance(a, b, c):
-	i1 = ((a[1] - b[1])**2 + (a[0] - b[0])**2)
-	i2 = ((a[1] - c[1])**2 + (a[0] - c[0])**2)
-
-	if(i1 == i2):
-		return 0
-	elif(i1 < i2):
-		return -1
-	return 1
-
 def leftmost_point(S):
 	point = S[0]
 	for i in range(len(S)):
@@ -21,38 +11,29 @@ def leftmost_point(S):
 
 #S is a set of points
 def jarvis(points):
-	
-	points = list(set(points)) #remove duplicates
-
-	starting_point, aux = leftmost_point(points)
-	result = set() #contains every point from the convex hull
-	collinear_points = []
-	result.add(starting_point)
-
-	current = starting_point
-	while True:
-		next_point = points[0]
-
-		for i in range(1, len(points)):
-			if points[i] == current:
-				continue
-			pos = cross_product(current, next_point, points[i])
-
-			if pos > 0:
-				next_point = points[i]
-				collinear_points.clear()
-			
-			elif pos == 0:
-				if(distance(current, next_point, points[i]) < 0):
-					collinear_points.append(next_point)
-					next_point = points[i]
-				else:
-					collinear_points.append(points[i])
-		for i in range(len(collinear_points)):
-			result.add(collinear_points[i])
-		if next_point == starting_point:
-			break
-		result.add(next_point)
-		current = next_point
-
-	return result
+    points = list(set(points))
+    n = len(points)
+    
+    if(n <= 2):
+        return points
+    
+    result = []
+    
+    starting_point, index = leftmost_point(points) #returns the index and the leftmost point
+    point_on_hull = starting_point
+    
+    while True:
+        result.append(point_on_hull)
+        
+        endpoint = points[0]
+        
+        for j in range(1, n):
+            if endpoint == point_on_hull or cross_product(point_on_hull, points[j], endpoint) < 0:
+                endpoint = points[j]
+        
+        point_on_hull = endpoint
+        
+        if endpoint == starting_point: #looped through the array
+            break
+            
+    return result
