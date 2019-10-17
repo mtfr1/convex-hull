@@ -1,19 +1,10 @@
 #return < 0 if c is on the left, > 0 if c is on the right, 0 if collinear
-def cross_product(a, b, c):
-	y1 = a[1] - b[1]
-	y2 = a[1] - c[1]
-	x1 = a[0] - b[0]
-	x2 = a[0] - c[0]
-	return y2*x1 - y1*x2
+def cross_product(o, a, b):
+	return (b[1] - o[1]) * (a[0] - o[0]) - (a[1] - o[1]) * (b[0] - o[0])
 
 def distance(a, b, c):
-	y1 = a[1] - b[1]
-	y2 = a[1] - c[1]
-	x1 = a[0] - b[0]
-	x2 = a[0] - c[0]
-
-	i1 = (y1**2 + x1**2)
-	i2 = (y2**2 + y2**2)
+	i1 = ((a[1] - b[1])**2 + (a[0] - b[0])**2)
+	i2 = ((a[1] - c[1])**2 + (a[0] - c[0])**2)
 
 	if(i1 == i2):
 		return 0
@@ -26,11 +17,11 @@ def leftmost_point(S):
 	for i in range(len(S)):
 		if S[i][0] < point[0]:
 			point = S[i]
-	return point
+	return point, i
 
 #S is a set of points
 def jarvis(points):
-	starting_point = leftmost_point(points)
+	starting_point, aux = leftmost_point(points)
 	result = set() #contains every point from the convex hull
 	collinear_points = []
 	result.add(starting_point)
@@ -62,3 +53,8 @@ def jarvis(points):
 		current = next_point
 
 	return result
+
+points = [(-7,8),(-4,6),(2,6),(6,4),(8,6),(7,-2),(4,-6),(8,-7),(0,0),(3,-2),(6,-10),(0,-6),
+		(-9,-5),(-8,-2),(-8,0),(-10,3),(-2,2),(-10,4)]
+
+print(jarvis(points))
